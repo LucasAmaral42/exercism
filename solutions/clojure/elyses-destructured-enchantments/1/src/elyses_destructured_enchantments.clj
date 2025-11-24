@@ -1,0 +1,37 @@
+(ns elyses-destructured-enchantments)
+
+(defn first-card
+  "Returns the first card from deck."
+  [[first & _deck]]
+  first)
+
+(defn second-card
+  "Returns the second card from deck."
+  [[_first second & _deck]]
+  second)
+
+(defn swap-top-two-cards
+  "Returns the deck with first two items reversed."
+  [[first second & rest]]
+  (-> rest
+      (conj first second)
+      vec))
+
+(defn discard-top-card
+  "Returns a sequence containing the first card and
+   a sequence of the remaining cards in the deck."
+  [[first & rest]]
+  [first rest])
+
+(def face-cards
+  ["jack" "queen" "king"])
+
+(defn insert-face-cards
+  "Returns the deck with face cards between its head and tail."
+  [[first & rest]]
+  (->> (cond
+        (and (nil? first) (empty? rest)) face-cards
+        (nil? first) face-cards
+        (empty? rest) (into [first] face-cards)
+        :else (into [first] (concat face-cards rest)))
+      vec))
